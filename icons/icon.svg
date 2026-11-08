@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#3B82F6"/><stop offset="1" stop-color="#8B5CF6"/>
+  </linearGradient>
+  <filter id="sh" x="-20%" y="-20%" width="140%" height="150%">
+    <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#1E1B4B" flood-opacity=".28"/>
+  </filter>
+<clipPath id="c"><rect width="512" height="512" rx="112"/></clipPath></defs>
+  <g clip-path="url(#c)"><rect width="512" height="512" fill="url(#bg)"/>
+  <circle cx="430" cy="70" r="150" fill="#fff" fill-opacity=".10"/>
+  <circle cx="60" cy="470" r="110" fill="#fff" fill-opacity=".08"/></g><g transform="translate(256 256) scale(0.92) translate(-256 -256)">
+  <g filter="url(#sh)">
+    <rect x="136" y="108" width="240" height="304" rx="30" fill="#FFFFFF"/>
+  </g>
+  <rect x="204" y="86" width="104" height="48" rx="16" fill="#1D4ED8"/>
+  <rect x="226" y="98" width="60" height="14" rx="7" fill="#BFDBFE"/>
+  <g>
+    <circle cx="180" cy="196" r="17" fill="#10B981"/>
+    <path d="M171 196.5l6.5 6.5 12-13" fill="none" stroke="#fff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="212" y="188" width="128" height="16" rx="8" fill="#CBD5E1"/>
+    <circle cx="180" cy="256" r="17" fill="#10B981"/>
+    <path d="M171 256.5l6.5 6.5 12-13" fill="none" stroke="#fff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="212" y="248" width="104" height="16" rx="8" fill="#CBD5E1"/>
+    <circle cx="180" cy="316" r="17" fill="#DBEAFE"/>
+    <circle cx="180" cy="316" r="6" fill="#3B82F6"/>
+    <rect x="212" y="308" width="82" height="16" rx="8" fill="#E2E8F0"/>
+  </g>
+  <circle cx="356" cy="372" r="60" fill="#F59E0B" stroke="#FFFFFF" stroke-width="10"/>
+  <polygon points="356.0,340.0 363.6,361.5 386.4,362.1 368.4,376.0 374.8,397.9 356.0,385.0 337.2,397.9 343.6,376.0 325.6,362.1 348.4,361.5" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="5" stroke-linejoin="round"/>
+</g>
+</svg>

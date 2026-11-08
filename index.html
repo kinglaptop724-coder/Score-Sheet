@@ -61,7 +61,8 @@ html,body{height:100%;margin:0;background:var(--bg);color:var(--ink);font-family
   }
 
   // ส่งต่อ query/hash (เช่น ?v=2) ไปยังเว็บแอป
-  var target = url + (location.search ? (url.indexOf('?') > -1 ? '&' + location.search.slice(1) : location.search) : '') + location.hash;
+  // embed=1 บอก Apps Script ว่าเรียกมาจากหน้านี้ (ไม่ต้องพาไปเว็บใหม่ซ้ำ)
+  var target = url + (url.indexOf('?') > -1 ? '&' : '?') + 'embed=1' + (location.search ? '&' + location.search.slice(1) : '') + location.hash;
   var open = document.getElementById('open'); open.href = target;
   document.getElementById('fallback').hidden = false;
 
