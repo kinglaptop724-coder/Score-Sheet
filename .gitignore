@@ -1,0 +1,4 @@
+.DS_Store
+node_modules/
+# ถ้าเก็บสำเนา Code.gs / Index.html ไว้ในเครื่อง อย่า push ขึ้น repo สาธารณะ (มี Sheet ID ภายในโรงเรียน)
+apps-script/

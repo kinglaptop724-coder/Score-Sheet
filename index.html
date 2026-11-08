@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ระบบบันทึกคะแนนนักเรียน</title>
+<meta name="description" content="ระบบบันทึกคะแนนนักเรียน ใช้งานผ่าน Google Apps Script + Google Sheets">
+<meta name="theme-color" content="#3B82F6">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="บันทึกคะแนน">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+:root{--a:#3B82F6;--b:#8B5CF6;--bg:#F8FAFC;--ink:#1E293B;--muted:#64748B}
+@media (prefers-color-scheme:dark){:root{--bg:#0B1120;--ink:#F1F5F9;--muted:#94A3B8}}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,"Noto Sans Thai","Sarabun",sans-serif}
+#app{position:fixed;inset:0;width:100%;height:100%;border:0;background:var(--bg)}
+#boot{position:fixed;inset:0;display:grid;place-items:center;align-content:center;gap:14px;text-align:center;padding:24px;
+  background:linear-gradient(135deg,var(--a),var(--b));color:#fff;transition:opacity .35s}
+#boot.done{opacity:0;pointer-events:none}
+#boot img{width:96px;height:96px;border-radius:24px;box-shadow:0 12px 32px rgba(30,27,75,.35)}
+#boot h1{margin:0;font-size:1.25rem}
+.spin{width:30px;height:30px;border:3px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:s .8s linear infinite}
+@keyframes s{to{transform:rotate(360deg)}}
+#msg{max-width:360px;font-size:.95rem;line-height:1.6;opacity:.95}
+#msg a{color:#fff;font-weight:700}
+#fallback{position:fixed;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:5}
+#fallback a{display:inline-block;background:rgba(15,23,42,.72);color:#fff;font-size:.78rem;text-decoration:none;padding:6px 12px;border-radius:999px;backdrop-filter:blur(6px)}
+</style>
+</head>
+<body>
+<iframe id="app" title="ระบบบันทึกคะแนนนักเรียน" allow="clipboard-write; fullscreen" referrerpolicy="no-referrer-when-downgrade" hidden></iframe>
+
+<div id="boot" role="status">
+  <img src="icons/icon-192.png" alt="">
+  <h1 id="name">ระบบบันทึกคะแนนนักเรียน</h1>
+  <div class="spin" id="spin"></div>
+  <p id="msg">กำลังเปิดระบบ…</p>
+</div>
+
+<div id="fallback" hidden><a id="open" href="#" target="_blank" rel="noopener">เปิดในแท็บใหม่ ↗</a></div>
+
+<script src="config.js"></script>
+<script>
+(function () {
+  var cfg = window.APP_CONFIG || {};
+  var url = String(cfg.APP_URL || '').trim();
+  var boot = document.getElementById('boot'), msg = document.getElementById('msg');
+  var frame = document.getElementById('app'), spin = document.getElementById('spin');
+  if (cfg.APP_NAME) { document.title = cfg.APP_NAME; document.getElementById('name').textContent = cfg.APP_NAME; }
+
+  if (!/^https:\/\/script\.google\.com\/(a\/[^/]+\/)?macros\/s\/[\w-]+\/(exec|dev)/.test(url)) {
+    spin.hidden = true;
+    msg.innerHTML = 'ยังไม่ได้ตั้งค่าลิงก์ Apps Script<br>เปิดไฟล์ <b>config.js</b> แล้ววางลิงก์ที่ลงท้ายด้วย <b>/exec</b>';
+    return;
+  }
+
+  // ส่งต่อ query/hash (เช่น ?v=2) ไปยังเว็บแอป
+  var target = url + (location.search ? (url.indexOf('?') > -1 ? '&' + location.search.slice(1) : location.search) : '') + location.hash;
+  var open = document.getElementById('open'); open.href = target;
+  document.getElementById('fallback').hidden = false;
+
+  var shown = false;
+  function show() { if (shown) return; shown = true; boot.classList.add('done'); setTimeout(function () { boot.hidden = true; }, 400); }
+  frame.addEventListener('load', show);
+  frame.hidden = false;
+  frame.src = target;
+
+  // ถ้าโหลดนาน/ถูกบล็อก ให้ลิงก์สำรอง
+  setTimeout(function () {
+    if (shown) return;
+    msg.innerHTML = 'ใช้เวลานานกว่าปกติ… ถ้าไม่เปิด ให้ <a href="' + target + '" target="_blank" rel="noopener">เปิดในแท็บใหม่</a>';
+  }, 8000);
+
+  if ('serviceWorker' in navigator && location.protocol === 'https:') {
+    navigator.serviceWorker.register('sw.js').catch(function () {});
+  }
+})();
+</script>
+</body>
+</html>
